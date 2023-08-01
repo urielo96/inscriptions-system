@@ -38,18 +38,20 @@ def is_alumno(user):
 def index(request):
     # Obtener el alumno actualmente autenticado desde la sesión
     alumno = request.user
-    usuario = request.user
     numero_cuenta = alumno.numero_cuenta
+    
     # Obtener el semestre actual del alumno
-
     semestre_actual = alumno.semestre_actual
-    alumno = User.objects.get(numero_cuenta=numero_cuenta)
-    asignaturas_inscritas = usuario.alumno.asignatura.all()
-    mostrar_boton_comprobante = False
+    
+    # Obtener las asignaturas inscritas del usuario actual
+    asignaturas_inscritas = alumno.alumno.asignatura.all()
+    
     # Obtener todos los cursos que pertenecen al semestre actual del alumno
-
     cursos_listados = Asignatura.objects.filter(
         Q(semestre=semestre_actual) | Q(semestre=0))
+    
+    mostrar_boton_comprobante = False
+
     return render(request, "index.html", context={
         'cursos_listados': cursos_listados,
         'asignaturas_inscritas': asignaturas_inscritas,
@@ -156,7 +158,8 @@ def generar_archivo_txt(request, grupo_clave):
     for usuario in usuarios_inscritos:
         # Aseguramos que la clave de la asignatura tenga siempre 4 dígitos con ceros a la izquierda
         clave_asignatura_padded = str(asignatura_especifica.clave_asignatura).zfill(4)
-        linea = f"{usuario.numero_cuenta}2253{clave_asignatura_padded}{grupo_seleccionado.clave_grupo}A\n"
+        clave_grupo_padded = str(grupo_seleccionado.clave_grupo).zfill(4)
+        linea = f"{usuario.numero_cuenta}2253{clave_asignatura_padded}{clave_grupo_padded}A\n"
         contenido += linea
 
     response = HttpResponse(content_type='text/plain')

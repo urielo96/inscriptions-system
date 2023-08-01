@@ -22,25 +22,27 @@
                 <table class="table table-primary">
                     <thead>
                         <tr>
-                            <th scope="col">Clave</th>
-                            <th scope="col">Denominacion</th>
-                            <th scope="col">Creditos</th>
-                            <th scope="col">Carácter</th>
-                            <th scope="col">Grupo</th>
+                            <th scope="col">CLAVE</th>
+                            <th scope="col">NOMBRE</th>
+                            <th scope="col">CREDITOS</th>
+                            <th scope="col">CARACTER</th>
+                            <th scope="col">GRUPO</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for asignatura in asignaturas_inscritas %}
                         <tr class="">
                             <td scope="row">{% if asignatura.clave_asignatura|length < 4 %}0{% endif %}{{ asignatura.clave_asignatura }}</td>
-
-                            <td>{{asignatura.denominacion}}</td>
-                            <td>{{asignatura.creditos}}</td>
-                            <td>{{asignatura.get_caracter_display }}</td>
+                
+                            <td>{{ asignatura.denominacion }}</td>
+                            <td>{{ asignatura.creditos }}</td>
+                            <td>{{ asignatura.get_caracter_display }}</td>
                             <td>
-                                {% for grupo in asignatura.grupos.all %}
-                                {{ grupo.get_semestre_display }} - Grupo {{ grupo.clave_grupo }}
-                                {% if not forloop.last %}, {% endif %}
+                                {% for inscripcion in asignatura.inscripcion_set.all %}
+                                    {% for grupo in inscripcion.grupo.all %}
+                                        {{ grupo }}
+                                        {% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
                                 {% endfor %}
                             </td>
                         </tr>
