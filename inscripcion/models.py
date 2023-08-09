@@ -42,6 +42,11 @@ class Inscripcion(models.Model):
     
 
     
+class Meta:
+        ordering = ['orden']
+    
+def __str__(self):
+    return self.texto_pregunta
     
     
 
