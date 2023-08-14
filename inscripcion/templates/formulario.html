@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<head>
+    <title>Formulario de Primer Semestre</title>
+    <!-- Agrega los enlaces a los archivos de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Formulario Alumnos Nuevo Ingreso</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% for pregunta in preguntas %}
+                <div class="form-group">
+                    <label>{{ pregunta.texto_pregunta }}</label>
+                    {% if pregunta.respuestas_predefinidas %}
+                        <select name="pregunta_{{ pregunta.id }}" class="form-control">
+                            <option value="" selected>Selecciona una respuesta</option>
+                            {% for respuesta in pregunta.respuestas_predefinidas %}
+                                <option value="{{ respuesta }}">{{ respuesta }}</option>
+                            {% endfor %}
+                        </select>
+                    {% else %}
+                        <input type="text" name="pregunta_{{ pregunta.id }}" class="form-control" required>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+{% endblock body %}
