@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-r!4h!pgn_-c!v5sz%a!&0bjjv08$wq%*af@+%i)^4&2+j)$r*z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -78,7 +78,6 @@ WSGI_APPLICATION = 'sistema_enacif.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -128,9 +127,30 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+# settings.py
+
+
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.2/howto/static-files/
+
+# Otras configuraciones de archivos estáticos
 STATIC_URL = '/static/'
-STATIC_ROOT = 'img/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, '/staticfiles/')  # Ruta donde se recopilan los archivos estáticos para producción
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, '/static/') 
+]
+
+# Resto de configuraciones...
+
+
+
+#STATIC_URL = '/static/'
+#STATIC_ROOT = '/var/www/inscripciones/static/'
+#STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
