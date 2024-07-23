@@ -1,0 +1,65 @@
+
+{% extends 'base.html' %}
+{% block title %}Sistema de Inscripciones ENaCif{% endblock title %}
+
+{% block body %}
+    <br>
+    <div class="d-flex align-items-center justify-content-center">
+        <h1>Inscripción a Exámenes Extraordinarios</h1>
+    </div>
+    <br>
+
+    {% if user.is_authenticated %}
+        <h3>Bienvenid@ {{user.first_name}} {{user.last_name}}</h3>
+    {% endif %}
+	 <br> 
+ 	<br>         
+    <div class="card">
+        <div class="card-header">
+            Exámenes Extraordinaios a Inscribir
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">Asignatura</h4>
+            <div class="table-responsive">
+                <table class="table table-primary">
+                    <thead>
+                        <tr>
+                            <th scope="col">CLAVE</th>
+                            <th scope="col">NOMBRE</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <td>0305</td>
+                        <td>QUIMICA FORENSE</td>
+                        
+                    </tbody>
+                </table>
+            </div>
+		<div>Da click en el boton de Aceptar para generar tu comprobate de inscripción</div>
+            <br>
+            <button id="btnAceptar" class="btn btn-primary">Aceptar</button>
+            <div id="comprobante" style="display: none;">
+                <!-- ... -->
+<form method="post" action="{% url 'generar_comprobante_extraordinario' alumno_id=user.numero_cuenta %}">
+    {% csrf_token %}
+    <input type="hidden" name="alumno_id" value="{{ user.numero_cuenta }}">
+    <button type="submit" class="btn btn-secondary">Generar Comprobante</button>
+</form>
+<!-- ... -->
+
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="card-footer text-muted">
+        Escuela Nacional de Ciencias Forenses
+    </div>
+
+    <script>
+        document.getElementById('btnAceptar').addEventListener('click', function() {
+            document.getElementById('btnAceptar').style.display = 'none';
+            document.getElementById('comprobante').style.display = 'block';
+        });
+    </script>
+{% endblock body %}

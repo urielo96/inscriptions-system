@@ -1,37 +1,146 @@
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: #f5f5f5b7; /* Color de fondo suave */
+  }
+
+  .container-login {
+  display: flex;
+  border-radius: 5px;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  
+  margin-top: 20%;
+  background-image: url('/static/img/library-345273_1920.jpg');  /* Asegúrate de reemplazar 'ruta/a/tu/imagen.jpg' con la ruta real de tu imagen */
+  background-size: cover; /* Asegura que la imagen de fondo cubra todo el contenedor */
+  background-position: center; /* Centra la imagen de fondo en el contenedor */
+  background-repeat: no-repeat; /* Evita que la imagen de fondo se repita */
+}
+
+.form-container {
+  background: rgba(255, 255, 255, 0.5); /* Blanco con 50% de transparencia */
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: none; /* Remover si prefieres sin bordes */
+  color:whitesmoke
+}
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .form-control {
+    border-radius: 20px;
+    border: 1px solid #ced4da;
+    padding: .375rem .75rem;
+  }
+
+  
+
+  .alert-danger {
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+  .form-container {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+  }
+
+  .form-container input[type="text"], .form-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+  }
+
+  .form-container input[type="text"]:focus, .form-container input[type="password"]:focus {
+    border-color: #666;
+  }
+
+  .form-container button {
+    width: 100%;
+    background-color: #4c6baf;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .form-container button:hover {
+    background-color: #45a049;
+  }
+  .resaltar {
+    background-color: #ffff99; /* Color de fondo amarillo claro para resaltar */
+    border: 2px solid #ff9900; /* Borde sólido naranja */
+    box-shadow: 0 0 5px #ff9900; /* Sombreado para mayor énfasis */
+  }
+  .etiqueta-resaltada {
+  font-size: 20px; /* Aumento del tamaño de la fuente */
+  color: #fbfbfb; /* Color de fuente para resaltar */
+  font-weight: bold; /* Hacer el texto más grueso */
+}
+</style>
+
+
 {% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
 
-  {% block body %}
-  
-  {% if messages %}
-  <div class="alert alert-danger" role="alert">
-      {% for message in messages %}
-          {{ message }}
-      {% endfor %}
+        {% block body %}
+          {% if messages %}
+            <div class="alert alert-danger">
+              {% for message in messages %}
+                <p>{{ message }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+            
+          <div class="container-login" >
+            <div class="col-md-6 form-container" >
+              <div style="font-family: 'Roboto'; text-align: center;">
+                <h2>
+                  
+                    ENaCiF
+                  
+                </div>
+                </h2>
+                
+                
+                
+                
+              <br>
+              <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="numero_cuenta" class="etiqueta-resaltada">Número de cuenta:</label>                  <input type="text" name="numero_cuenta" id="numero_cuenta" class="form-control form-control-sm resaltar" required>
+                </div>
+          
+                <div class="form-group">
+                  <label for="password" class="etiqueta-resaltada">Contraseña:</label>
+                  <input type="password" name="password" id="password" class="form-control form-control-sm resaltar" required>
+                </div>
+          
+                <br>
+                <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
+              </form>
+            </div>
+          </div>
+          {% endblock body %}
+        </div>
+    </div>
   </div>
-{% endif %}
-
-<!-- Resto del contenido del template -->
-
-
-<form method="POST">
-    {% csrf_token %}
-    <label for="numero_cuenta">Número de cuenta:</label>
-    <input type="text" name="numero_cuenta" required>
-
-    <label for="contraseña">Contraseña:</label>
-    <input type="password" name="password" required>
-
-    <button type="submit">Iniciar sesión</button>
-</form>
-{% endblock body %}
 </body>
 </html>

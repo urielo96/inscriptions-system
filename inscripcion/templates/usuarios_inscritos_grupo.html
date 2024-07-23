@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+
+{% block body %}
+
+<div class="d-flex align-items-center justify-content-center">
+    <h1>Sistema de Inscripciones ENaCIF</h1>
+    </div>
+    <br>
+
+    {% if user.is_authenticated %}
+        <h3>Bienvenid@ {{user.first_name}} {{user.last_name}}</h3>
+    {% endif %}
+
+    <hr>
+
+    <h1>Selecciona un grupo:</h1>
+    <form method="GET" action="{% url 'usuarios_inscritos_grupo' %}">
+        <select name="grupo">
+            <option value="">Seleccione un grupo</option>
+            {% for grupo in grupos %}
+                <option value="{{ grupo.clave_grupo }}" {% if grupo_seleccionado and grupo_seleccionado.clave_grupo == grupo.clave_grupo %}selected{% endif %}>{{ grupo.clave_grupo }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Mostrar Alumnos Inscritos</button>
+    </form>
+    <br><br>
+    
+{% if grupo_seleccionado %}
+    <h2>Alumnos inscritos al grupo {{ grupo_seleccionado.clave_grupo }}:</h2>
+    {% for asignatura in usuario.alumno.asignatura.all %}
+                    
+        <p>{{ asignatura.clave_asignatura }} - {{ asignatura.denominacion }}</p>
+                   
+        {% endfor %}
+        
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Número de Cuenta</th>
+                    <th class="text-center">Nombre</th>
+                    <th class="text-center">Grupo</th>
+                    <th class="text-center">Número de Materias Inscritas</th>
+                </tr>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                {% with materias_inscritas=usuario.alumno.asignatura.all %}
+                <tr>
+                    <tr>
+                        
+                        <td class="text-center">{{ forloop.counter }}</td>
+                        <td class="text-center">{{ usuario.numero_cuenta }}</td>
+                        <td class="text-center">{{ usuario.first_name }} {{ usuario.last_name }}</td>
+                        <td class="text-center">{{ grupo_seleccionado.clave_grupo }}</td>
+                        <td class="text-center">{{ materias_inscritas.count }}</td>
+
+                    </tr>
+                    {% endwith %}
+                {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">No hay usuarios inscritos en este grupo</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    
+    <br><br>
+    <h2>Genera los archivos para  del grupo :  {{ grupo_seleccionado.clave_grupo }}</h2>
+
+    {% if grupo_seleccionado.asignaturas.all %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="text-center">Clave de Asignatura</th>
+                <th class="text-center">Denominación</th>
+                <th class="text-center">Generar Archivo Inscripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for asignatura in grupo_seleccionado.asignaturas.all %}
+                <tr>
+                    <td class="text-center">{{ asignatura.clave_asignatura }}</td>
+                    <td class="text-center">{{ asignatura.denominacion }}</td>
+                    <td class="text-center">
+                        {% if grupo_seleccionado.clave_grupo %}
+                            <form action="{% url 'generar_archivo_txt' grupo_seleccionado.clave_grupo %}?asignatura={{ asignatura.clave_asignatura }}" method="post">
+                                {% csrf_token %}
+                                <button type="submit">Archivo Inscripcion</button>
+                            </form>
+                        {% endif %}
+                    
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No hay asignaturas en este grupo</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-center">No hay asignaturas en este grupo</p>
+    {% endif %}
+    
+
+
+{% endif %}
+
+{% endblock body %}
+

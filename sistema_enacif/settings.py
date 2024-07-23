@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-r!4h!pgn_-c!v5sz%a!&0bjjv08$wq%*af@+%i)^4&2+j)$r*z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'inscripcion',
-    'users'
+    'users',
+    'import_export',
     
 ]
 
@@ -77,11 +78,15 @@ WSGI_APPLICATION = 'sistema_enacif.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'inscripciones_enacif',
+        'USER': 'root',
+        'PASSWORD': 'toor',
+        'HOST': 'localhost',
+        'PORT': '3306',
+       
     }
 }
 
@@ -108,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-mx'
 
 TIME_ZONE = 'America/Mexico_City'
 
@@ -122,7 +127,29 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+# settings.py
+
+
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.2/howto/static-files/
+
+# Otras configuraciones de archivos estáticos
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, '/staticfiles/')  # Ruta donde se recopilan los archivos estáticos para producción
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static') 
+]
+
+# Resto de configuraciones...
+
+
+
+#STATIC_URL = '/static/'
+#STATIC_ROOT = '/var/www/inscripciones/static/'
+#STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -132,5 +159,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom user model
 AUTH_USER_MODEL = "users.User"
+
+# Tiempo de inactividad en segundos (ejemplo: 30 minutos)
+SESSION_COOKIE_AGE = 1200
+# Configurar la URL de inicio de sesión.
+LOGIN_URL = 'login'
+
+# Opcionalmente, puedes establecer SESSION_EXPIRE_AT_BROWSER_CLOSE a True
+# para que la sesión expire cuando el navegador se cierre
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+
+LOGIN_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'login'
+
+# settings.py
 
 

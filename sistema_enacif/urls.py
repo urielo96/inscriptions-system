@@ -17,17 +17,14 @@ Including another URLconf
 
 
 from django.contrib import admin
-from django.urls import path,include
-from users.views import logout_users
-
-
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('',include('inscripcion.urls')),
-    path('users/',include('users.urls')),
+    
+    path('', include('users.urls')),
+    path('inscripcion', include('inscripcion.urls')),
     path('users/', include('django.contrib.auth.urls')),
-    path('logout/',logout_users, name = 'logout'),
-    path('admin/', admin.site.urls)
-
-
-]
+    path('admin/', admin.site.urls),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
