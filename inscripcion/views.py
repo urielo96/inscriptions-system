@@ -263,7 +263,7 @@ def generar_comprobante(request, alumno_id):
     image_path_left = os.path.join(settings.BASE_DIR, 'static', 'img', 'logolcf.png')
 
     # Cargar la imagen a la izquierda
-    logo_left = Image(image_path_left, width=80, height=140)
+    logo_left = Image(image_path_left, width=50, height=70)
     logo_left.hAlign = 'LEFT'  # Alineamos la imagen a la izquierda
 
    
@@ -411,7 +411,7 @@ def generar_comprobante(request, alumno_id):
     img.save(img_buffer, format='PNG')
 
     # Crear un objeto Image de ReportLab con la imagen del código QR
-    qr_image = Image(img_buffer, width=200, height=200)  # Ajusta el tamaño según sea necesario
+    qr_image = Image(img_buffer, width=100, height=100)  # Ajusta el tamaño según sea necesario
 
     # Agregar la imagen del código QR a los elementos del PDF
     elements.append(qr_image)
@@ -600,21 +600,16 @@ def generar_comprobante_extraordinario(request, alumno_id):
     
     elements.append(table)
 
-    
-        
-   #agregar QR
+    #Agregar QR
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
         box_size=3,
         border=2,
     )
-
-    data = f"ESCUELA NACIONAL DE CIENCIAS FORENSES, No_Cuenta: {alumno_info.numero_cuenta}"  # Redirigir a pagina con informacion del alumno
+    data = "    " #necesito redirigir a la pagina de informacion del alumno
     qr.add_data(data)
     qr.make(fit=True)
-
-
 
     # Convertir el código QR en una imagen y guardarla en un objeto BytesIO
     img = qr.make_image(fill='black', back_color='white')
@@ -623,14 +618,17 @@ def generar_comprobante_extraordinario(request, alumno_id):
 
     # Crear un objeto Image de ReportLab con la imagen del código QR
     qr_image = Image(img_buffer, width=100, height=100)
-    qr_image.hAlign = 'RIGHT'
-    elements.append(Spacer(0, 200))
-    elements.append(Paragraph(" ", title_style))
-    elements.append(Paragraph(" ", title_style))
-    elements.append(Paragraph(" ", title_style))
-    elements.append(Paragraph(" ", title_style))
+    qr_image.hAlign = 'RIGTH'
     elements.append(qr_image)
+    elements.append(Spacer(0, 20))
+    elements.append(Paragraph(" ", title_style))
+    elements.append(Paragraph(" ", title_style))
+    elements.append(Paragraph(" ", title_style))
+    elements.append(Paragraph(" ", title_style))
 
+
+        
+   
     
     
 
@@ -651,6 +649,4 @@ def generar_comprobante_extraordinario(request, alumno_id):
     response['Content-Disposition'] = f'attachment; filename="Comprobante-{alumno_info.numero_cuenta}.pdf"'
     response.write(pdf_content)
     return response
-
-
 

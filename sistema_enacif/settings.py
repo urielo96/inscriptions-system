@@ -140,7 +140,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '/staticfiles/')  # Ruta donde se recopilan los archivos estáticos para producción
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '/static/') 
+    os.path.join(BASE_DIR, 'static') 
 ]
 
 # Resto de configuraciones...
