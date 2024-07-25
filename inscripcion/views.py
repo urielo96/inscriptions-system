@@ -57,8 +57,13 @@ def index(request):
     alumno = request.user
     numero_cuenta = alumno.numero_cuenta
     
+    
     # Obtener el semestre actual del alumno
     semestre_actual = alumno.semestre_actual
+    
+    # Obtener las asignaturas inscritas del usuario actual
+    asignaturas_inscritas = alumno.alumno.asignatura.all()
+    
     
     # Obtener las asignaturas inscritas del usuario actual
     asignaturas_inscritas = alumno.alumno.asignatura.all()
@@ -195,6 +200,8 @@ def generar_archivo_txt(request, grupo_clave):
     for usuario in usuarios_inscritos:
         # Aseguramos que la clave de la asignatura tenga siempre 4 dígitos con ceros a la izquierda
         clave_asignatura_padded = str(asignatura_especifica.clave_asignatura).zfill(4)
+        clave_grupo_padded = str(grupo_seleccionado.clave_grupo).zfill(4)
+        linea = f"{usuario.numero_cuenta}2253{clave_asignatura_padded}{clave_grupo_padded}A\n"
         clave_grupo_padded = str(grupo_seleccionado.clave_grupo).zfill(4)
         linea = f"{usuario.numero_cuenta}2253{clave_asignatura_padded}{clave_grupo_padded}A\n"
         contenido += linea
