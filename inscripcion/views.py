@@ -334,7 +334,7 @@ def generar_comprobante(request, alumno_id):
     ],
     [
         Paragraph("<b>Periodo:</b>", styles['Normal']),
-        Paragraph("2024-1", styles['Normal']),  # Aquí puedes poner el valor del periodo si es dinámico
+        Paragraph("2024-2", styles['Normal']),  # Aquí puedes poner el valor del periodo si es dinámico
     ],
     [
         Paragraph("<b>Semestre:</b>", styles['Normal']),
