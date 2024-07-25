@@ -1,1 +1,41 @@
+# Entorno virtual (si se utiliza venv, virtualenv, etc.)
+env/
+venv/
+.virtualenv/
+.vscode/
+
+# Archivos generados por Django
 *.pyc
+*.pyo
+__pycache__/
+
+# Archivos de bases de datos
+*.sqlite3
+
+# Archivos de medios y cargas de usuario
+media/
+
+# Archivos de configuración locales
+settings_local.py
+
+# Archivos de registro y caché
+*.log
+log/
+__pycache__/
+cache/
+
+# Archivos generados por IDEs
+.idea/
+
+# Archivos de configuración de texto
+*.bak
+*.swp
+*.tmp
+*.~*
+
+# Archivos de configuración de sistema
+.DS_Store
+Thumbs.db
+
+# Archivo de dependencias
+requirements.txt
